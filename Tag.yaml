@@ -1,0 +1,17 @@
+stages:
+  - deploy
+  - notify
+
+deploy_to_prod:
+  stage: deploy
+  script:
+    - echo "deploy to prod"
+  only:
+    - tags
+
+release_notify:
+  stage: notify
+  script:
+    - echo "release was successfully deployed"
+  only:
+    - tags

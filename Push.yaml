@@ -1,0 +1,46 @@
+stages:
+  - install
+  - build
+  - tests
+
+install_deps:
+  stage: install
+  script:
+    - echo "Install project deps"
+    - mkdir -p node_modules
+    - touch node_modules/package.json
+  artifacts:
+    paths:
+      - node_modules/
+
+build_libs:
+  stage: build
+  script:
+    - ls node_modules/
+  dependencies:
+    - install_deps
+
+build_3rd_party:
+  stage: build
+  script:
+    - echo "This is build 3rd party"
+    - mkdir -p 3rd_party
+    - touch 3rd_party/3rd_party.txt
+
+unit:
+  stage: tests
+  script:
+    - ls node_modules/
+    - ls 3rd_party/
+  dependencies:
+    - install_deps
+    - build_3rd_party
+
+lint:
+  stage: tests
+  script:
+    - ls node_modules/
+    - ls 3rd_party/
+  dependencies:
+    - install_deps
+    - build_3rd_party

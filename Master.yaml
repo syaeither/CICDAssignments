@@ -1,0 +1,40 @@
+stages:
+  - install
+  - build
+  - release
+  - notify
+
+install_deps:
+  stage: install
+  script:
+    - echo "Install project deps"
+    - mkdir -p node_modules
+    - touch node_modules/package.json
+  artifacts:
+    paths:
+      - node_modules/
+  only:
+    - master
+
+build_libs:
+  stage: build
+  script:
+    - ls node_modules/
+  dependencies:
+    - install_deps
+  only:
+    - master
+
+up_version:
+  stage: release
+  script:
+    - echo "job from master"
+  only:
+    - master
+
+slack_notify:
+  stage: notify
+  script:
+    - echo "release was successfully released"
+  only:
+    - master

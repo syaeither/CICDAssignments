@@ -1,0 +1,94 @@
+stages:
+  - install
+  - build
+  - tests
+  - deploy
+  - ui_tests
+
+# Повторяем этапы из push пайплайна
+install_deps:
+  stage: install
+  script:
+    - echo "Install project deps"
+    - mkdir -p node_modules
+    - touch node_modules/package.json
+  artifacts:
+    paths:
+      - node_modules/
+  only:
+    - merge_requests
+
+build_libs:
+  stage: build
+  script:
+    - ls node_modules/
+  dependencies:
+    - install_deps
+  only:
+    - merge_requests
+
+build_3rd_party:
+  stage: build
+  script:
+    - echo "This is build 3rd party"
+    - mkdir -p 3rd_party
+    - touch 3rd_party/3rd_party.txt
+  only:
+    - merge_requests
+
+unit:
+  stage: tests
+  script:
+    - ls node_modules/
+    - ls 3rd_party/
+  dependencies:
+    - install_deps
+    - build_3rd_party
+  only:
+    - merge_requests
+
+lint:
+  stage: tests
+  script:
+    - ls node_modules/
+    - ls 3rd_party/
+  dependencies:
+    - install_deps
+    - build_3rd_party
+  only:
+    - merge_requests
+
+# Новые этапы для merge request
+deploy_to_stg:
+  stage: deploy
+  before_script:
+    - ls node_modules/
+  script:
+    - rm -rf node_modules/*
+  after_script:
+    - ls -a node_modules/
+  dependencies:
+    - install_deps
+  only:
+    - merge_requests
+
+chrome_tests:
+  stage: ui_tests
+  script:
+    - echo "Chrome"
+  only:
+    - merge_requests
+
+firefox_tests:
+  stage: ui_tests
+  script:
+    - echo "Firefox"
+  only:
+    - merge_requests
+
+edge_tests:
+  stage: ui_tests
+  script:
+    - echo "Edge"
+  only:
+    - merge_requests
