@@ -5,7 +5,6 @@ stages:
   - deploy
   - ui_tests
 
-# Повторяем этапы из push пайплайна
 install_deps:
   stage: install
   script:
@@ -58,7 +57,6 @@ lint:
   only:
     - merge_requests
 
-# Новые этапы для merge request
 deploy_to_stg:
   stage: deploy
   before_script:
