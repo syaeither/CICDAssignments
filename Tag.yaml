@@ -15,3 +15,5 @@ release_notify:
     - echo "release was successfully deployed"
   only:
     - tags
+
+    #бубубубу
