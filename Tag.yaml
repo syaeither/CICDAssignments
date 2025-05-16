@@ -23,4 +23,4 @@ release_notify:
     - echo "release was successfully deployed"
   only:
     - tags
-    #я тут изменила текст
+    #я тут изменила текст1
