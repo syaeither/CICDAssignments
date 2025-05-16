@@ -16,4 +16,9 @@ release_notify:
   only:
     - tags
 
-    #пупупупу
+release_notify:
+  stage: notify
+  script:
+    - echo "release was successfully deployed"
+  only:
+    - tags
